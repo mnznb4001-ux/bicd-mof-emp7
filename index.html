@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BICD 1405</title>
+<style>
+body{
+margin:0;
+padding:0;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+background:#ffffff;
+}
+img{
+max-width:100%;
+height:auto;
+}
+</style>
+</head>
+<body>
+<img id="img" src="90.jpg">
+
+<script>
+function toEnglishNumber(str){
+return str.replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+}
+
+// پایان ماه های 1405
+const expiryDays=[30,31,31,31,31,31,30,30,30,30,30,29];
+
+// گرفتن ماه از لینک
+const params=new URLSearchParams(window.location.search);
+const selectedMonth=parseInt(params.get('month'));
+
+// گرفتن تاریخ شمسی
+const parts=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{
+year:'numeric',month:'numeric',day:'numeric'
+}).formatToParts(new Date());
+
+let year,month,day;
+parts.forEach(p=>{
+if(p.type==='year') year=parseInt(toEnglishNumber(p.value));
+if(p.type==='month') month=parseInt(toEnglishNumber(p.value));
+if(p.type==='day') day=parseInt(toEnglishNumber(p.value));
+});
+
+let img='90.jpg';
+
+if(selectedMonth>=1 && selectedMonth<=12){
+
+if(year<1405){
+img=selectedMonth+'.jpg';
+}
+
+else if(year===1405){
+
+if(month<selectedMonth){
+img=selectedMonth+'.jpg';
+}
+
+else if(month===selectedMonth && day<=expiryDays[selectedMonth-1]){
+img=selectedMonth+'.jpg';
+}
+
+else{
+img='90.jpg';
+}
+
+}
+
+else{
+img='90.jpg';
+}
+
+}
+
+document.getElementById('img').src=img;
+</script>
+
+</body>
+</html>
